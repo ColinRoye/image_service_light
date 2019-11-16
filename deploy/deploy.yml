@@ -1,2 +1,21 @@
-- name: Simple Example
-  hosts: app
+---
+- hosts: app
+  become: true
+  tasks:
+    - name: Install aptitude using apt
+      apt: name=aptitude state=latest update_cache=yes force_apt_get=yes
+
+    - name: Install required system packages
+      apt: name={{ item }} state=latest update_cache=yes
+      loop: [ 'curl' ]
+    - git:
+        repo: https://github.com/ColinRoye/image_service_light.git
+        dest: /app
+        force: yes
+    - name:
+      shell: 'cd /app
+	     && sudo curl -sL https://deb.nodesource.com/setup_11.x | bash -
+       && sudo apt update
+	     && sudo apt install nodejs
+	     && npm install
+	     && nohup node server.js&'
