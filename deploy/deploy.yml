@@ -14,7 +14,8 @@
         force: yes
     - name:
       shell: 'cd /app
-	     && sudo curl -sL https://deb.nodesource.com/setup_11.x | bash -
+	     && sudo -su
+       && sudo curl -sL https://deb.nodesource.com/setup_11.x | bash -
        && sudo apt update
 	     && sudo apt install nodejs
 	     && npm install
