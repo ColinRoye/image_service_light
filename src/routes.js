@@ -28,22 +28,27 @@ router.post('/addmedia', upload.single('content'), async (req, res, next)=>{
 
 });
 router.get('/media/:id', async (req, res, next)=>{
+     console.log("GET MEDIA: " + JSON.stringify(req.body));
      let filename = req.params.id
      console.log(filename);
      let ret = services.retrieve(filename,res);
 });
 router.delete('/media/:id', async (req, res, next)=>{
+     
+//     console.log("DEL MEDIA COOKIE: " + req.cookies['auth']);
      let filename = req.params.id
      console.log(filename);
      let ret = services.delete(filename,res);
 });
 router.get('/used/:id/:username', async (req, res, next)=>{
+      debug.log("madeit to get");      
       let filename = req.params.id
       console.log(filename);
       let ret = services.getUsed(filename,res, req.params.username);
 
 });
 router.post('/used/:id', async (req, res, next)=>{
+     debug.log("madeit to post");     
      let filename = req.params.id
      console.log(filename);
      let ret = services.setUsed(filename,res);

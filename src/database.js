@@ -98,13 +98,18 @@ module.exports={
         });
     },
     delete: async(filename, res)=>{
-         const query = 'DELETE contents FROM hw6.imgs3 WHERE filename = ?';
-         return client.execute(query, [ filename ]).then((result)=>{
-            res.send(env.statusOk);
+	let ret = {};
+	const query = 'DELETE FROM hw6.imgs3 WHERE filename = ? IF EXISTS;';
+	return client.execute(query, [ filename ]).then((result)=>{
+			console.log("RESULTS: " + JSON.stringify(result));
+	    		if(result.wasApplied()){res.send(env.statusOk)}
+			else{console.log("NOT APPLIED BUT FOUND");res.status("400").send(env.statusError)}
+            		//res.send(env.statusOk);
          }).catch((err)=>{
-            res.send(env.statusError);
-         });
-    }
-
+		//res.send(err);		
+		console.log("ERR DIDNT MAKE "+ err);
+	        res.status("400").send(env.statusError);
+        });
+     }
 
 }
