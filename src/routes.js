@@ -14,7 +14,7 @@ router.post('/addmedia', upload.single('content'), async (req, res, next)=>{
   if(req.cookies["auth"]){
     let id = shortid.generate();
     debug.log(req.cookies["auth"])
-    ret = await services.deposit(id, req.file,res, req.cookies["auth"]);
+    ret =  services.deposit(id, req.file,res, req.cookies["auth"]);
     // if(ret.status == env.statusError.status){
     //   ret.error = "anything"
     // }

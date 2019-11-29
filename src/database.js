@@ -10,6 +10,10 @@ module.exports={
      init_cassandra: async (client_in)=>{
      	  client = client_in
 	      client_in.connect()
+  //              .then(function () {
+//	      		const query = "DROP TABLE [IF EXISTS] hw6.imgs3"
+//			return client.execute(query);
+ //	        })
      		.then(function () {
      			const query = "CREATE KEYSPACE IF NOT EXISTS hw6 WITH replication =" +
      			  "{'class': 'SimpleStrategy', 'replication_factor': '1' }";
@@ -76,16 +80,17 @@ module.exports={
           const query = "INSERT INTO \"hw6\".\"imgs3\" (filename, contents, used, username) VALUES (?, ?, ?, ?)";
           let ret = {};
           debug.log("USERNAME: " + username)
-          return client.execute(query, [ filename, contents, '0', username ]).then((resp)=>{
-                ret = env.statusOk;
-                ret.id = filename;
-                res.send(ret);
-          }).catch((err)=>{
-                ret = env.statusError;
-                ret.error = err;
-                res.send(ret);
-          });
-    },
+          client.execute(query, [ filename, contents, '0', username ])//.then((resp)=>{
+                //ret = env.statusOk;
+                //ret.id = filename;
+//                res.send(ret);
+          //}).catch((err)=>{
+            //    ret = env.statusError;
+             //   ret.error = err;
+    //            res.send(ret);
+          //});
+          res.send({status:"OK", id:filename});
+  },
     retrieve: async(filename, res)=>{
         let ret = {};
         const query = 'SELECT contents FROM hw6.imgs3 WHERE filename = ?';
@@ -93,6 +98,7 @@ module.exports={
 			       res.setHeader("Content-Type" ,   JSON.parse(result.rows[0].contents).mimetype)
 			       res.send(new Buffer(JSON.parse(result.rows[0].contents).buffer.data));
   		  }).catch((err)=>{
+    	     debug.log("ERR"); debug.log((err));
              ret = env.statusError;
              res.status("400").send(env.statusError);
         });

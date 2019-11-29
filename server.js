@@ -19,6 +19,18 @@ const client = new cassandra.Client({
   localDataCenter: 'datacenter1'
 });
 
+
+var fs = require('fs')
+var morgan = require('morgan')
+var path = require('path')
+
+var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
+app.use(morgan('dev', { stream: accessLogStream }))
+
+
+
+
+
 // client.connect()
 //   .then(() => console.log('Connected!'));
 
