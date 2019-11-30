@@ -12,6 +12,7 @@ const shortid = require('shortid');
 var apicache = require('apicache')
 var cache = apicache.middleware
 
+apicache.clear()
 
 router.post('/addmedia', upload.single('content'), async (req, res, next) => {
   let ret;
@@ -31,7 +32,7 @@ router.post('/addmedia', upload.single('content'), async (req, res, next) => {
 
 
 });
-router.get('/media/:id', cache('10 minutes'), async (req, res, next) => {
+router.get('/media/:id', cache('2 minutes'), async (req, res, next) => {
   console.log("GET MEDIA: " + JSON.stringify(req.body));
   let filename = req.params.id
   console.log(filename);
