@@ -88,19 +88,19 @@ module.exports = {
     const query = "INSERT INTO \"hw6\".\"imgs3\" (filename, contents, used, username) VALUES (?, ?, ?, ?)";
     let ret = {};
     debug.log("USERNAME: " + username)
-    client.execute(query, [filename, contents, '0', username]).then((resp) => {
-      ret = env.statusOk;
-      ret.id = filename;
-      res.send(ret);
-    }).catch((err) => {
-      ret = env.statusError;
-      ret.error = err;
-      res.send(ret);
+    client.execute(query, [filename, contents, '0', username]) //.then((resp)=>{
+    //ret = env.statusOk;
+    //ret.id = filename;
+    //                res.send(ret);
+    //}).catch((err)=>{
+    //    ret = env.statusError;
+    //   ret.error = err;
+    //            res.send(ret);
+    //});
+    res.send({
+      status: "OK",
+      id: filename
     });
-    // res.send({
-    //   status: "OK",
-    //   id: filename
-    // });
   },
   retrieve: async (filename, res) => {
     let ret = {};
